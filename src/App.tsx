@@ -3,6 +3,7 @@ import LeftPane from '@/components/LeftPane'
 import RightPane from '@/components/RightPane'
 import NamePrompt from '@/components/NamePrompt'
 import TooNarrow from '@/components/TooNarrow'
+import ChatWindow from '@/components/ChatWindow'
 
 export interface Player {
   id: string
@@ -45,6 +46,7 @@ export default function App() {
       {!playerName && <NamePrompt onSubmit={handleNameSubmit} />}
       <LeftPane />
       <RightPane players={players} />
+      {playerName && <ChatWindow playerName={playerName} />}
     </div>
   )
 }
