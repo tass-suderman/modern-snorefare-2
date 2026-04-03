@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect, type KeyboardEvent, type ChangeEvent } from 'react'
 
+let nextMsgId = 0
+
 interface ChatMessage {
-  id: string
+  id: number
   name: string
   text: string
 }
@@ -24,7 +26,7 @@ export default function ChatWindow({ playerName }: ChatWindowProps) {
     if (!text) return
     setMessages((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), name: playerName, text },
+      { id: nextMsgId++, name: playerName, text },
     ])
     setInput('')
   }
@@ -37,7 +39,7 @@ export default function ChatWindow({ playerName }: ChatWindowProps) {
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    // Allow printable ASCII (space through ~) and newlines only
+    // Allow printable ASCII (0x20 space through 0x7E tilde) and newlines
     const filtered = e.target.value.replace(/[^\x20-\x7E\n]/g, '')
     setInput(filtered)
   }
