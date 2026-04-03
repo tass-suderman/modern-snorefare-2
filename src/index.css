@@ -1,0 +1,338 @@
+@import "tailwindcss";
+
+/* ── MW2 Pregame Lobby ── */
+
+:root {
+  --mw2-bg: #0d0d0d;
+  --mw2-panel-bg: rgba(0, 0, 0, 0.75);
+  --mw2-text: #d4c9a8;
+  --mw2-text-bright: #ffffff;
+  --mw2-accent: #c8a84b;
+  --mw2-selected: #c8a84b;
+  --mw2-rule: rgba(200, 168, 75, 0.4);
+  --mw2-font: 'Arial Narrow', 'Arial', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--mw2-bg);
+  background-image: radial-gradient(ellipse at 50% 50%, #1a1a2e 0%, #0d0d0d 70%);
+  color: var(--mw2-text);
+  font-family: var(--mw2-font);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  overflow: hidden;
+}
+
+/* ── Too Narrow ── */
+.too-narrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 12px;
+  text-align: center;
+  padding: 20px;
+  font-family: var(--mw2-font);
+  color: var(--mw2-text-bright);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Lobby layout ── */
+.mw2-lobby {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* ── Left Pane ── */
+.left-pane {
+  width: 280px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  background: var(--mw2-panel-bg);
+  border-right: 1px solid rgba(200, 168, 75, 0.25);
+  padding: 24px 0 16px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.left-pane-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--mw2-accent);
+  text-transform: uppercase;
+  padding: 0 20px 12px;
+  border-bottom: 1px solid var(--mw2-rule);
+  margin-bottom: 8px;
+}
+
+.left-pane-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+.left-pane-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mw2-font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mw2-text);
+  transition: color 0.1s, background 0.1s;
+}
+
+.left-pane-menu-item:hover,
+.left-pane-menu-item.selected {
+  color: var(--mw2-text-bright);
+  background: rgba(200, 168, 75, 0.15);
+}
+
+.left-pane-menu-item.selected {
+  border-left: 3px solid var(--mw2-accent);
+  color: var(--mw2-accent);
+}
+
+.left-pane-rule {
+  border: none;
+  border-top: 1px solid var(--mw2-rule);
+  margin: 6px 20px;
+}
+
+.left-pane-description {
+  padding: 8px 20px 12px;
+  font-size: 0.72rem;
+  color: rgba(212, 201, 168, 0.65);
+  letter-spacing: 0.06em;
+  min-height: 28px;
+}
+
+/* ── Map section ── */
+.left-pane-map {
+  position: relative;
+  margin: 8px 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid rgba(200, 168, 75, 0.3);
+}
+
+.left-pane-map-img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.left-pane-map-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--mw2-text-bright);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.left-pane-map-label--top {
+  top: 0;
+}
+
+.left-pane-map-label--bottom {
+  bottom: 0;
+}
+
+/* ── Controller buttons ── */
+.left-pane-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 20px;
+  margin-top: auto;
+}
+
+.controller-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mw2-text);
+}
+
+.glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.glyph-y {
+  background: #f5d800;
+}
+
+.glyph-b {
+  background: #e04040;
+}
+
+/* ── Right Pane ── */
+.right-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  padding: 24px 24px 16px;
+  position: relative;
+}
+
+.right-pane-players {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.player-entry {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mw2-text-bright);
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.right-pane-footer {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mw2-text);
+  text-align: right;
+  margin-top: 8px;
+}
+
+/* ── Name Prompt ── */
+.name-prompt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.name-prompt-dialog {
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid var(--mw2-accent);
+  padding: 32px 40px;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.name-prompt-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--mw2-accent);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.name-prompt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.name-prompt-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 168, 75, 0.5);
+  color: var(--mw2-text-bright);
+  font-family: var(--mw2-font);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  outline: none;
+}
+
+.name-prompt-input:focus {
+  border-color: var(--mw2-accent);
+}
+
+.name-prompt-input::placeholder {
+  color: rgba(212, 201, 168, 0.35);
+}
+
+.name-prompt-button {
+  background: var(--mw2-accent);
+  border: none;
+  color: #000;
+  font-family: var(--mw2-font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.name-prompt-button:hover:not(:disabled) {
+  background: #e8c85b;
+}
+
+.name-prompt-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
