@@ -63,16 +63,16 @@ const useWebSocket = (props: useWebSocketProps) => {
     connect();
     return () => {
       clearTimeout(reconnectTimer.current);
-      wsRef.current?.close(1000, "hook cleanup");
+      // wsRef.current?.close(1000, "hook cleanup");
     };
   }, [connect]);
 
   const send = useCallback((data: OutboundEvent) => {
 		data.playerId = localStorage.getItem('mw2_player_id') || undefined;
 		data.roomId = localStorage.getItem('mw2_room_id') || undefined;
-		const jsonData = JSON.stringify(data);
+		data.data = JSON.stringify(data.data);
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(jsonData));
+      wsRef.current.send(JSON.stringify(data));
     }
   }, []);
 
