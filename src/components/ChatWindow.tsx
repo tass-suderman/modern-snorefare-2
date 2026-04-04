@@ -1,19 +1,12 @@
 import { useState, useRef, useEffect, type KeyboardEvent, type ChangeEvent } from 'react'
-
-let nextMsgId = 0
-
-interface ChatMessage {
-  id: number
-  name: string
-  text: string
-}
+import type { ChatMessage } from '@/models/ChatMessage'
 
 interface ChatWindowProps {
-  playerName: string
+	messages: ChatMessage[]
+	sendMessage: (message: string) => void
 }
 
-export default function ChatWindow({ playerName }: ChatWindowProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+export default function ChatWindow({ messages, sendMessage }: ChatWindowProps) {
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -21,20 +14,17 @@ export default function ChatWindow({ playerName }: ChatWindowProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const sendMessage = () => {
+  const onMessageSend = () => {
     const text = input.trim()
     if (!text) return
-    setMessages((prev) => [
-      ...prev,
-      { id: nextMsgId++, name: playerName, text },
-    ])
+		sendMessage(text)
     setInput('')
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      sendMessage()
+      onMessageSend()
     }
   }
 
@@ -51,7 +41,7 @@ export default function ChatWindow({ playerName }: ChatWindowProps) {
           <div key={msg.id} className="chat-message">
             <span className="chat-message-name">{msg.name}</span>
             {': '}
-            <span className="chat-message-text">{msg.text}</span>
+            <span className="chat-message-text">{msg.message}</span>
           </div>
         ))}
         <div ref={messagesEndRef} />
