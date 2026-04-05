@@ -1,5 +1,5 @@
 import type { OutboundEvent } from '@/models/Events';
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 
 export interface useWebSocketProps {
 	url: string;
@@ -11,7 +11,7 @@ export interface useWebSocketProps {
 
 const useWebSocket = (props: useWebSocketProps) => {
   const { 
-		url, 
+	url, 
 		onMessageReceived, 
 		onOpen, 
 		onClose, 
@@ -20,6 +20,7 @@ const useWebSocket = (props: useWebSocketProps) => {
   const wsRef = useRef<WebSocket>(null);
   const reconnectTimer = useRef<number>(0);
   const attemptRef = useRef(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   const connect = useCallback(() => {
     const socket = new WebSocket(url);
@@ -27,6 +28,7 @@ const useWebSocket = (props: useWebSocketProps) => {
 
     socket.onopen = () => {
       attemptRef.current = 0;
+      setIsOpen(true);
       onOpen();
     };
 
@@ -35,6 +37,7 @@ const useWebSocket = (props: useWebSocketProps) => {
     };
 
     socket.onclose = (event) => {
+      setIsOpen(false);
       onClose(event);
       if (reconnect && event.code !== 1000) {
         scheduleReconnect();
@@ -68,15 +71,20 @@ const useWebSocket = (props: useWebSocketProps) => {
   }, [connect]);
 
   const send = useCallback((data: OutboundEvent) => {
-		data.playerId = localStorage.getItem('mw2_player_id') || undefined;
-		data.roomId = localStorage.getItem('mw2_room_id') || undefined;
-		data.data = JSON.stringify(data.data);
+		const payload: Record<string, unknown> = {};
+
+		for (const [key, value] of Object.entries(data)) {
+			if (value !== undefined) {
+				payload[key] = key === 'data' && typeof value !== 'string' ? JSON.stringify(value) : value;
+			}
+		}
+
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(data));
+      wsRef.current.send(JSON.stringify(payload));
     }
   }, []);
 
-  return { send, wsRef };
+  return { isOpen, send, wsRef };
 }
 
 export default useWebSocket;
