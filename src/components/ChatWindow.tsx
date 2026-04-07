@@ -37,8 +37,8 @@ export default function ChatWindow({ messages, sendMessage }: ChatWindowProps) {
   return (
     <div className="chat-window">
       <div className="chat-messages">
-        {messages.map((msg) => (
-          <div key={msg.id} className="chat-message">
+        {messages.map((msg, index) => (
+          <div key={`${msg.name}-${new Date(msg.time).toISOString()}-${index}`} className="chat-message">
             <span className="chat-message-name">{msg.name}</span>
             {': '}
             <span className="chat-message-text">{msg.message}</span>

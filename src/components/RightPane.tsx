@@ -1,4 +1,4 @@
-import type { Player } from '@/App'
+import type { Player } from '@/models/Player'
 
 interface RightPaneProps {
   players: Player[]
