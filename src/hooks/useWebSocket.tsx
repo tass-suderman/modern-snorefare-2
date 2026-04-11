@@ -75,7 +75,7 @@ const useWebSocket = (props: useWebSocketProps) => {
 
 		for (const [key, value] of Object.entries(data)) {
 			if (value !== undefined) {
-				payload[key] = key === 'data' && typeof value !== 'string' ? JSON.stringify(value) : value;
+				payload[key] = value;
 			}
 		}
 
